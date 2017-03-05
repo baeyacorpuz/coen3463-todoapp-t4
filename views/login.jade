@@ -1,0 +1,43 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    title Login
+    link(rel='stylesheet prefetch', href='http://fonts.googleapis.com/css?family=Open+Sans:600')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    .login-wrap
+      .login-html
+        input#tab-1.sign-in(type='radio', name='tab', checked='')
+        label.tab(for='tab-1') Sign In
+        input#tab-2.sign-up(type='radio', name='tab')
+        label.tab(for='tab-2') Sign Up
+        .login-form
+          form.sign-in-htm(action='/login', method='post')
+            .group
+              label.label(for='username') Username
+              input#username.input(type='text', name='username', required='required', autocomplete='off')
+            .group
+              label.label(for='password') Password
+              input#password.input(type='password', data-type='password', name='password', required='required', autocomplete='off')
+            .group
+              input#check.check(type='checkbox', checked='')
+              label(for='check')
+                span.icon
+                |  Keep me Signed in
+            .group
+              input.button(type='submit', value='Sign In')
+            .hr
+          form.sign-up-htm(action='/sign-up', method='post')
+            .group
+              label.label(for='username') Username: 
+              input#username.input(type='text', name='username', required='')
+            .group
+              label.label(for='password') Password: 
+              input#password.input(type='password', data-type='password', name='password1', required='')
+            .group
+              label.label(for='password') Repeat Password: 
+              input#confirmpassword.input(type='password', data-type='password', name='confirmPassword', required='')
+            .group
+              input.button(type='submit', value='Sign Up')
+            .hr
