@@ -1,6 +1,7 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 
+alert("bea ganda")
 
 //* TODO BANNER && TODO LIST */
 var TodoBanner = React.createClass({
@@ -83,7 +84,7 @@ var TodoApp = React.createClass({
       var allItems = this.state.items.concat([newItem]);
       this.setState({items: allItems});
     }else{
-      alert("New list must not be blank!")
+      alert("Item must not be blank!")
     }
   },
   deleteAllItems: function(){
@@ -101,7 +102,4 @@ var TodoApp = React.createClass({
   }
 });
 
-ReactDOM.render(
-  <TodoApp />,
-  document.getElementById('app')
-);
+export default TodoApp;
