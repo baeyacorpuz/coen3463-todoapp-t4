@@ -1,7 +1,7 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 
-alert("bea ganda")
+alert("Welcome to your Task List!!")
 
 //* TODO BANNER && TODO LIST */
 var TodoBanner = React.createClass({
@@ -54,7 +54,7 @@ var CreateList = React.createClass({
   },
   render: function(){
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form onSubmit={this.handleSubmit} className="list-form"  className="new-todo">
         <input type='text' ref='item' onChange={this.onChange} value={this.state.item}/>
         <input type='submit' value='Add'/>
       </form>
@@ -66,7 +66,7 @@ var CreateList = React.createClass({
 var DeleteAllList = React.createClass({
   render: function(){
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form onSubmit={this.handleSubmit} className="list-form">
         <input type='submit' value='Clear'/>
       </form>
     );

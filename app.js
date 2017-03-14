@@ -9,6 +9,7 @@ var session = require('express-session');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var flash = require('connect-flash');
+var bluebird = require('bluebird');
 var mongoose = require('mongoose');
 
 var options = {
@@ -23,7 +24,6 @@ var options = {
     }
   }
 };
-
 
 var index = require('./routes/index');
 var login = require('./routes/login');
