@@ -3,6 +3,14 @@ body{
 	margin: 0 !important
 }
 
+.clearfix:after {
+  content: " "; /* Older browser do not support empty content */
+  visibility: hidden;
+  display: block;
+  height: 0;
+  clear: both;
+}
+
 .upper,
 .todo-container{
 	background: #fff;
@@ -69,6 +77,10 @@ body{
 	border-bottom: 1px solid;
 }
 
+#task-count h2{
+	text-align: center;
+}
+
 .todo-container{
 	margin: 0 auto;
 	max-width: 800px;
@@ -116,8 +128,44 @@ body{
 	outline: none !important;
 }
 
+.task-nav{
+	margin: 0 5%;
+}
+
+.task-nav a{
+	background-color: #e4e4e4;
+  border: 1px solid #cdcdcd;
+  color: #777;
+	display: inline-block;
+	font-size: 15px;
+	line-height: 30px;
+	text-align: center;
+	text-decoration: none;
+	width: 33%;
+}
+
+.task-nav a:hover{
+	background-color: #FFF;
+}
+
+.task-nav a.active{
+	background-color: #FFF;
+}
+
 .todo-list{
+	float: left;
+	list-style-type: disc;
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0;
+  -webkit-margin-start: 0;
+  -webkit-margin-end: 0;
+  -webkit-padding-start: 0;
 	width: 50%;
+}
+
+.todo-list-one{
+	float: none;
+	margin: 0 auto;
 }
 
 .todo-list h3{
@@ -140,6 +188,7 @@ body{
   background-color: #e4e4e4;
 	border: 1px solid #cdcdcd;
   color: #777;
+  cursor: pointer;
 	display: inline-block;
 	font-size: 15px;
 	line-height: 30px;
@@ -153,4 +202,23 @@ body{
 	display: inline-block;
 	text-align: center;
 	width: 49%;
+}
+
+.clear-list-form .clear-completed{
+	background: rgba(40,57,101,.9);
+  border: 1px solid #dcdcdc;
+  border-radius: 6px;
+  color: #FAFAFA;
+  display: block;
+  padding: 8px 10px;
+  margin: 10px auto 0;
+  width: 140px;
+}
+
+.clear-list-form .clear-completed:hover{
+	background-color: #FAFAFA;
+	border: 1px solid rgba(40,57,101,.9);
+	box-shadow: 0 0 3px rgba(40,57,101,.9);
+  color: rgba(40,57,101,.9);
+	cursor: pointer;
 }
