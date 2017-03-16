@@ -7,7 +7,8 @@ router.get('/', function(req, res, next) {
     if(req.user){
         res.render('index', {
             user: req.user,
-            title: 'Task List'
+            title: 'Task List',
+            hostname: req.protocol + "://" + req.headers.host
         });
     }
     else {
@@ -74,7 +75,7 @@ router.post('/sign-up', function(req, res, next) {
 	}
 });
 
-router.post('/logout', function(req, res){
+router.get('/logout', function(req, res){
     req.logout();
     res.redirect('/');
 });

@@ -1,4 +1,11 @@
 extends layout
 
 block content
-  #root
+	.home-page(data-username= user.username)
+		.header
+		.upper-container
+			.upper
+				span= user.username
+				a(href="/logout") Logout
+		.todo-container
+			#root

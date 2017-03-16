@@ -20,6 +20,10 @@ module.exports = {
         }]
     },
     resolve: {
-        extensions: ['.js', '.jsx']
+        extensions: ['.js', '.jsx'],
+        modules: [
+          path.resolve('./node_modules'),
+          path.resolve('./src/components'),
+        ]
     }
 };

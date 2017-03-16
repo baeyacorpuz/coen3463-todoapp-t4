@@ -27,6 +27,7 @@ var options = {
 
 var index = require('./routes/index');
 var login = require('./routes/login');
+var task = require('./routes/task');
 
 var users = require('./models/users');
 
@@ -65,6 +66,7 @@ app.use(flash());
 
 app.use('/', index);
 app.use('/login', login);
+app.use('/task', task);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,6 +1,5 @@
 import React from 'react';
 import { render } from 'react-dom';
-import TodoApp from './components/App';
+import Todo from 'Todo';
 
-render(<TodoApp />, document.getElementById('root'));
-//render(<App name='Miss Ganda'/>, document.getElementById('root'));
+render(<Todo />, document.getElementById('root'));
