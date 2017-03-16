@@ -8,7 +8,7 @@ router.get('/', function(req, res, next) {
         res.render('index', {
             user: req.user,
             title: 'JUSTDOIT',
-            hostname: https + "://" + req.headers.host
+            hostname: "https" + "://" + req.headers.host
         });
     }
     else {
