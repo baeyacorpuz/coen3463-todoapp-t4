@@ -7,13 +7,13 @@ router.get('/', function(req, res, next) {
     if(req.user){
         res.render('index', {
             user: req.user,
-            title: 'Task List',
-            hostname: req.protocol + "://" + req.headers.host
+            title: 'JUSTDOIT',
+            hostname: https + "://" + req.headers.host
         });
     }
     else {
         res.render('login', {
-            title: 'Login | Task List',
+            title: 'Login | JUSTDOIT',
             alertMessage: req.flash('alertMessage')
         });
     }
