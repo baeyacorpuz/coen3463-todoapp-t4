@@ -53,63 +53,39 @@ router.get("/completed-tasks/:username", function(req, res, next){
 });
 
 router.get("/delete/:task_id", function(req, res, next){
-	Task.findOneAndRemove({ _id: req.params.task_id }, function(err) {
-	  if(err){
-      res.render('index', {
-        user: req.user,
-        title: 'Task List',
-        hostname: req.protocol + "://" + req.headers.host
-	    });
+  Task.findOneAndRemove({ _id: req.params.task_id }, function(err) {
+    if(err){
+      res.redirect('/');
     }
     else{
       req.flash('alertMessage', 'Save Success');
-  		res.render('index', {
-        user: req.user,
-        title: 'Task List',
-        hostname: req.protocol + "://" + req.headers.host
-	    });
+      res.redirect('/');
     }
-	});
+  });
 });
 
 router.get("/complete/:task_id", function(req, res, next){
-	Task.findByIdAndUpdate(req.params.task_id, { isComplete: true }, function(err) {
-	  if(err){
-      res.redirect('/', {
-        user: req.user,
-        title: 'Task List',
-        hostname: req.protocol + "://" + req.headers.host
-	    });
+  Task.findByIdAndUpdate(req.params.task_id, { isComplete: true }, function(err) {
+    if(err){
+      res.redirect('/');
     }
     else{
       req.flash('alertMessage', 'Save Success');
-  		res.render('index', {
-        user: req.user,
-        title: 'Task List',
-        hostname: req.protocol + "://" + req.headers.host
-	    });
+      res.redirect('/');
     }
-	});
+  });
 });
 
 router.get("/uncomplete/:task_id", function(req, res, next){
-	Task.findByIdAndUpdate(req.params.task_id, { isComplete: false }, function(err) {
-	  if(err){
-      res.redirect('/', {
-        user: req.user,
-        title: 'Task List',
-        hostname: req.protocol + "://" + req.headers.host
-	    });
+  Task.findByIdAndUpdate(req.params.task_id, { isComplete: false }, function(err) {
+    if(err){
+      res.redirect('/');
     }
     else{
       req.flash('alertMessage', 'Save Success');
-  		res.render('index', {
-        user: req.user,
-        title: 'Task List',
-        hostname: req.protocol + "://" + req.headers.host
-	    });
+      res.redirect('/');
     }
-	});
+  });
 });
 
 router.post("/delete-all-completed", function(req, res, next){
