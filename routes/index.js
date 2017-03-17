@@ -8,7 +8,7 @@ router.get('/', function(req, res, next) {
         res.render('index', {
             user: req.user,
             title: 'Task List',
-            hostname: req.protocol + "://" + req.headers.host
+            hostname: "https" + "://" + req.headers.host
         });
     }
     else {
