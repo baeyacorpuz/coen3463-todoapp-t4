@@ -8,12 +8,16 @@ function allTasks(this_state){
   $.ajax({
     url: app_url + "/task/all-tasks/" + $(".home-page").attr("data-username"),
     type: "GET",
+    beforeSend: function(data){
+      $(".loading").show();
+    },
     success: function (data){
-      $.each(data, function (i, val){
+      $.each(data.tasks, function (i, val){
         item.push(val);
       });
 
-      this_state.setState({items: item, task_type: "all"});
+      this_state.setState({items: item, task_type: "all", counter: data.counter});
+      $(".loading").hide();
     },
     error: function (data){
 
@@ -26,11 +30,15 @@ function completedTasks(this_state){
   $.ajax({
     url: app_url + "/task/completed-tasks/" + $(".home-page").attr("data-username"),
     type: "GET",
+    beforeSend: function(data){
+      $(".loading").show();
+    },
     success: function (data){
-      $.each(data, function (i, val){
+      $.each(data.tasks, function (i, val){
         item.push(val);
       });
-      this_state.setState({items: item, task_type: "completed"});
+      this_state.setState({items: item, task_type: "completed", counter: data.counter});
+      $(".loading").hide();
     },
     error: function (data){
 
@@ -43,11 +51,15 @@ function uncompletedTasks(this_state){
   $.ajax({
     url: app_url + "/task/uncompleted-tasks/" + $(".home-page").attr("data-username"),
     type: "GET",
+    beforeSend: function(data){
+      $(".loading").show();
+    },
     success: function (data){
-      $.each(data, function (i, val){
+      $.each(data.tasks, function (i, val){
         item.push(val);
       });
-      this_state.setState({items: item, task_type: "open"});
+      this_state.setState({items: item, task_type: "open", counter: data.counter});
+      $(".loading").hide();
     },
     error: function (data){
 
@@ -64,7 +76,6 @@ var CreateList = React.createClass({
     e.preventDefault();
     this.props.onFormSubmit(this.state.item);
     this.setState({item: ''});
-    // React.findDOMNode(this.refs.item).focus();
     return;
   },
   onChange: function(e){
@@ -185,24 +196,39 @@ var CompletedList = React.createClass({
 var TaskNav = React.createClass({
   handleAll: function (e){
     e.preventDefault();
-    this.props.clickNav("all");
+    if(this.props.task_type != "all") this.props.clickNav("all");  
   },
   handleOpen: function (e){
     e.preventDefault();
-    this.props.clickNav("open");
+    if(this.props.task_type != "open") this.props.clickNav("open");
   },
   handleCompleted: function (e){
     e.preventDefault();
-    console.log('hey');
-    this.props.clickNav("completed");
+    if(this.props.task_type != "completed") this.props.clickNav("completed");
   },
   render: function(){
+    var all_css = this.props.task_type == "all" ? "active" : "";
+    var open_css = this.props.task_type == "open" ? "active" : "";
+    var completed_css = this.props.task_type == "completed" ? "active" : "";
     return (
       <div className="task-nav">
-        <a href="#" onClick={this.handleAll}>All</a>
-        <a href="#" onClick={this.handleOpen}>Open</a>
-        <a href="#" onClick={this.handleCompleted}>Completed</a>
+        <a href="#" className={all_css} onClick={this.handleAll}>All</a>
+        <a href="#" className={open_css} onClick={this.handleOpen}>Open</a>
+        <a href="#" className={completed_css} onClick={this.handleCompleted}>Completed</a>
       </div>
+    );
+  }
+});
+
+var TaskCount = React.createClass({
+  getInitialState: function(){
+    return { completed: 0, tasks: 0 }
+  },
+  render: function(){
+    var all = this.props.counter.all_tasks;
+    var completed = this.props.counter.completed;
+    return(
+      <h2 className="task-counter">{completed} Completed / {all} Tasks</h2>
     );
   }
 });
@@ -211,7 +237,7 @@ var TaskNav = React.createClass({
 var TodoApp = React.createClass({
   getInitialState: function(){
     allTasks(this);
-    return {items: [], task_type: "all"};
+    return {items: [], task_type: "all", counter: {all_tasks: 0, completed: 0}};
   },
   updateItems: function(newItem){
     if(newItem != ""){
@@ -220,6 +246,9 @@ var TodoApp = React.createClass({
         url: app_url + $(".new-todo").attr("action"),
         type: "POST",
         data: $(".new-todo").serialize(),
+        beforeSend: function(data){
+          $(".loading").show();
+        },
         success: function (data){
           if(this_state.state.task_type == "completed"){
             completedTasks(this_state);
@@ -248,6 +277,9 @@ var TodoApp = React.createClass({
       url: app_url + $(".clear-list-form").attr("action"),
       type: "POST",
       data: $(".clear-list-form").serialize(),
+      beforeSend: function(data){
+        $(".loading").show();
+      },
       success: function (data){
         if(data.status == 'success'){
           if(this_state.state.task_type == "completed"){
@@ -266,8 +298,9 @@ var TodoApp = React.createClass({
     if(this.state.task_type == "completed"){
       return (
         <div>
+          <TaskCount counter={this.state.counter} />
           <CreateList onFormSubmit={this.updateItems} />
-          <TaskNav clickNav={this.changeList} />
+          <TaskNav clickNav={this.changeList} task_type={this.state.task_type} />
           <DeleteCompletedList onFormSubmit={this.deleteCompleted} />
           <AnyList items={this.state.items} task_type={this.state.task_type} />
         </div>
@@ -275,16 +308,18 @@ var TodoApp = React.createClass({
     }else if(this.state.task_type == "open"){
       return (
         <div>
+          <TaskCount counter={this.state.counter} />
           <CreateList onFormSubmit={this.updateItems} />
-          <TaskNav clickNav={this.changeList} />
+          <TaskNav clickNav={this.changeList} task_type={this.state.task_type} />
           <AnyList items={this.state.items} task_type={this.state.task_type} />
         </div>
       );
     }else{
       return (
         <div>
+          <TaskCount counter={this.state.counter} />
           <CreateList onFormSubmit={this.updateItems} />
-          <TaskNav clickNav={this.changeList} />
+          <TaskNav clickNav={this.changeList} task_type={this.state.task_type} />
           <DeleteCompletedList onFormSubmit={this.deleteCompleted} />
           <UncompletedList items={this.state.items} />
           <CompletedList items={this.state.items} />
@@ -295,15 +330,5 @@ var TodoApp = React.createClass({
   }
 });
 
-var TaskCount = React.createClass({
-  getInitialState: function(){
-    return { completed: 0, tasks: 0 }
-  },
-  render: function(){
-    return(
-      <h2>{this.state.completed} Completed / 12 Tasks</h2>
-    );
-  }
-});
 
-export default { TodoApp, TaskCount };
+export default { TodoApp };

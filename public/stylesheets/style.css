@@ -77,7 +77,7 @@ body{
 	border-bottom: 1px solid;
 }
 
-#task-count h2{
+h2.task-counter{
 	text-align: center;
 }
 
@@ -221,4 +221,23 @@ body{
 	box-shadow: 0 0 3px rgba(40,57,101,.9);
   color: rgba(40,57,101,.9);
 	cursor: pointer;
+}
+
+.loading{
+  background-color: #ededed;
+  border-radius: 15px;
+  display: none;
+  height: 100%;
+  margin: -10px;
+  max-width: 820px;
+  opacity: 0.4;
+  position: absolute;
+  width: 100%;
+  z-index: 1;
+}
+
+.loading img{
+  left: 50%;
+  position: absolute;
+  top: 50%;
 }

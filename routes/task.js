@@ -29,63 +29,87 @@ router.post('/newtask', function(req, res, next) {
 });
 
 router.get("/all-tasks/:username", function(req, res, next){
-	Task.find({ owner: req.user._id }, function(err, tasks) {
+	var user_id = req.user._id;
+	Task.find({ owner: user_id }, function(err, tasks) {
 	  if (err) throw err;
-  	res.json(tasks)
-  	// console.log(user.map(function(b) {return b;}));
+	  Task.find({ owner: user_id }, function(err, inner_tasks) {
+		  if (err) throw err;
+		  var com_count = 0;
+		  inner_tasks.map(function(x) {
+		  	if( x.isComplete ) com_count += 1;
+		  });
+	  	feedback = { tasks: tasks, counter: {all_tasks: inner_tasks.length, completed: com_count} };
+	  	res.json(feedback);
+		});
 	});
 });
 
 router.get("/uncompleted-tasks/:username", function(req, res, next){
-	Task.find({ owner: req.user._id, isComplete: false }, function(err, tasks) {
+	var user_id = req.user._id;
+	Task.find({ owner: user_id, isComplete: false }, function(err, tasks) {
 	  if (err) throw err;
-	  res.json(tasks)
-  	// console.log(user.map(function(b) {return b;}));
+	  Task.find({ owner: user_id }, function(err, inner_tasks) {
+		  if (err) throw err;
+		  var com_count = 0;
+		  inner_tasks.map(function(x) {
+		  	if( x.isComplete ) com_count += 1;
+		  });
+	  	feedback = { tasks: tasks, counter: {all_tasks: inner_tasks.length, completed: com_count} };
+	  	res.json(feedback);
+		});
 	});
 });
 
 router.get("/completed-tasks/:username", function(req, res, next){
-	Task.find({ owner: req.user._id, isComplete: true }, function(err, tasks) {
+	var user_id = req.user._id;
+	Task.find({ owner: user_id, isComplete: true }, function(err, tasks) {
 	  if (err) throw err;
-	  res.json(tasks)
-  	// console.log(user.map(function(b) {return b;}));
+	  Task.find({ owner: user_id }, function(err, inner_tasks) {
+		  if (err) throw err;
+		  var com_count = 0;
+		  inner_tasks.map(function(x) {
+		  	if( x.isComplete ) com_count += 1;
+		  });
+	  	feedback = { tasks: tasks, counter: {all_tasks: inner_tasks.length, completed: com_count} };
+	  	res.json(feedback);
+		});
 	});
 });
 
 router.get("/delete/:task_id", function(req, res, next){
-  Task.findOneAndRemove({ _id: req.params.task_id }, function(err) {
-    if(err){
+	Task.findOneAndRemove({ _id: req.params.task_id }, function(err) {
+	  if(err){
       res.redirect('/');
     }
     else{
       req.flash('alertMessage', 'Save Success');
-      res.redirect('/');
+  		res.redirect('/');
     }
-  });
+	});
 });
 
 router.get("/complete/:task_id", function(req, res, next){
-  Task.findByIdAndUpdate(req.params.task_id, { isComplete: true }, function(err) {
-    if(err){
+	Task.findByIdAndUpdate(req.params.task_id, { isComplete: true }, function(err) {
+	  if(err){
       res.redirect('/');
     }
     else{
       req.flash('alertMessage', 'Save Success');
-      res.redirect('/');
+  		res.redirect('/');
     }
-  });
+	});
 });
 
 router.get("/uncomplete/:task_id", function(req, res, next){
-  Task.findByIdAndUpdate(req.params.task_id, { isComplete: false }, function(err) {
-    if(err){
+	Task.findByIdAndUpdate(req.params.task_id, { isComplete: false }, function(err) {
+	  if(err){
       res.redirect('/');
     }
     else{
       req.flash('alertMessage', 'Save Success');
-      res.redirect('/');
+  		res.redirect('/');
     }
-  });
+	});
 });
 
 router.post("/delete-all-completed", function(req, res, next){

@@ -8,6 +8,7 @@ block content
 				span= user.username
 				a(href="/logout") Logout
 		.todo-container
-			#root
-				#task-count
-				#task-container
+			.loading
+				img(src="/images/ajax-loader.gif")
+			#root.clearfix
+				#task-container.clearfix
