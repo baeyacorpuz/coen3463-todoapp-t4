@@ -1,7 +1,10 @@
 var mongoose = require('mongoose');
+var Promise = require('bluebird');
 var Schema = mongoose.Schema;
 var timestamps = require('mongoose-timestamp');
 var users = require('./users');
+
+mongoose.Promise = Promise;
 
 var tasksSchema = new Schema
 (

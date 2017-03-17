@@ -9,7 +9,7 @@ var session = require('express-session');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var flash = require('connect-flash');
-var bluebird = require('bluebird');
+// var Promise = require('bluebird');
 var mongoose = require('mongoose');
 
 var options = {
@@ -29,17 +29,15 @@ var index = require('./routes/index');
 var login = require('./routes/login');
 var task = require('./routes/task');
 
+var db = require('./models/db');
 var users = require('./models/users');
 
 var app = express();
 
-passport.use(new LocalStrategy(users.authenticate()));
-passport.serializeUser(users.serializeUser());
-passport.deserializeUser(users.deserializeUser());
 
-// mongoose configuration
-mongoose.Promise = require('bluebird');
-mongoose.connect('mongodb://module678:module678@ds143449.mlab.com:43449/team4-module678', options);
+// // mongoose configuration
+// mongoose.Promise = Promise;
+// mongoose.connect('mongodb://module678:module678@ds143449.mlab.com:43449/team4-module678', options);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -57,6 +55,12 @@ app.use(session({
   saveUninitialized: true,
   resave: false
 }));
+
+// passport.use(new LocalStrategy(users.authenticate()));
+passport.use(users.createStrategy());
+
+passport.serializeUser(users.serializeUser());
+passport.deserializeUser(users.deserializeUser());
 
 // passport configuration
 app.use(passport.initialize());

@@ -75,7 +75,7 @@ router.get("/delete/:task_id", function(req, res, next){
 router.get("/complete/:task_id", function(req, res, next){
 	Task.findByIdAndUpdate(req.params.task_id, { isComplete: true }, function(err) {
 	  if(err){
-      res.render('index', {
+      res.redirect('/', {
         user: req.user,
         title: 'Task List',
         hostname: req.protocol + "://" + req.headers.host
@@ -95,7 +95,7 @@ router.get("/complete/:task_id", function(req, res, next){
 router.get("/uncomplete/:task_id", function(req, res, next){
 	Task.findByIdAndUpdate(req.params.task_id, { isComplete: false }, function(err) {
 	  if(err){
-      res.render('index', {
+      res.redirect('/', {
         user: req.user,
         title: 'Task List',
         hostname: req.protocol + "://" + req.headers.host
